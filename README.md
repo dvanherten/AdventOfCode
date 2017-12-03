@@ -1,3 +1,5 @@
 # AdventOfCode
 Capturing my participation in [Advent Of Code](http://adventofcode.com). 
-I'll likely wait until it is over to fully push to GitHub.
+Took a test driven approach to the problems as well as a harness for easy code running.
+
+May play around with refactoring the solutions for funsies.
