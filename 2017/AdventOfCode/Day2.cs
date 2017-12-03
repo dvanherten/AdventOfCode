@@ -1,30 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 
-namespace Day02
+namespace AdventOfCode
 {
-    class Program
+    public static class Day2
     {
-        static string[] _testInputPart1 = { "5 1 9 5", "7 5 3", "2 4 6 8" };
-        static string[] _testInputPart2 = { "5 9 2 8", "9 4 7 3", "3 8 6 5" };
-
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Day 2 - Part 1");
-            Console.WriteLine("--------------");
-            Console.WriteLine(SolvePart1(_testInputPart1));
-            Console.WriteLine(SolvePart1(File.ReadAllLines("input.txt")));
-
-            Console.WriteLine();
-            Console.WriteLine("Day 2 - Part 2");
-            Console.WriteLine("--------------");
-            Console.WriteLine(SolvePart2(_testInputPart2));
-            Console.WriteLine(SolvePart2(File.ReadAllLines("input.txt")));
-
-        }
-
-        static int SolvePart1(string[] input)
+        public static int SolvePart1(string[] input)
         {
             return input.Sum(x =>
             {
@@ -33,7 +14,7 @@ namespace Day02
             });
         }
 
-        static int SolvePart2(string[] input)
+        public static int SolvePart2(string[] input)
         {
             return input.Sum(x =>
             {
