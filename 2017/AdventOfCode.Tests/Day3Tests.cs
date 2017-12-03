@@ -31,19 +31,6 @@ namespace AdventOfCode.Tests
         }
 
         [Fact]
-        public void FindCenterTest()
-        {
-            var result = Day3.FindCenterPoint(8);
-            Assert.Equal(new Point(2, 2), result);
-
-            result = Day3.FindCenterPoint(11);
-            Assert.Equal(new Point(3, 3), result);
-
-            result = Day3.FindCenterPoint(21);
-            Assert.Equal(new Point(3, 3), result);
-        }
-
-        [Fact]
         public void FindPointTest()
         {
             var result = Day3.FindPointForNumber(16);
@@ -70,13 +57,14 @@ namespace AdventOfCode.Tests
             Assert.Equal(expected, result);
         }
 
-        //[Theory]
-        //[InlineData(1, 0)]
-        //public void Part2Tests(int input, int expected)
-        //{
-        //    var result = Day3.SolvePart2(input);
-        //    Assert.Equal(expected, result);
-        //}
+        [Theory]
+        [InlineData(6, 10)]
+        [InlineData(800, 806)]
+        public void Part2Tests(int input, int expected)
+        {
+            var result = Day3.SolvePart2(input);
+            Assert.Equal(expected, result);
+        }
 
         [Fact]
         public void Part1RealPuzzle()
@@ -85,12 +73,12 @@ namespace AdventOfCode.Tests
             Assert.Equal(371, result);
         }
 
-        //[Fact]
-        //public void Part2RealPuzzle()
-        //{
-        //    var result = Day3.SolvePart2(GetPuzzleInput());
-        //    Assert.Equal(0, result);
-        //}
+        [Fact]
+        public void Part2RealPuzzle()
+        {
+            var result = Day3.SolvePart2(GetPuzzleInput());
+            Assert.Equal(369601, result);
+        }
 
         private int GetPuzzleInput()
         {

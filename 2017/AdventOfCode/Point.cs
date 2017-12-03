@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace AdventOfCode
 {
-    public class Point : IEquatable<Point>
+    [DebuggerDisplay("X = {X}, Y = {Y}")]
+    public struct Point : IEquatable<Point>
     {
         public Point(int x, int y)
         {
