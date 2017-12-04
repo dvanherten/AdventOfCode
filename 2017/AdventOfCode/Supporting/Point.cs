@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace AdventOfCode
+namespace AdventOfCode.Supporting
 {
     [DebuggerDisplay("X = {X}, Y = {Y}")]
     public struct Point : IEquatable<Point>
