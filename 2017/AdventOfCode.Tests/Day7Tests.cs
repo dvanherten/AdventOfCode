@@ -12,14 +12,14 @@ namespace AdventOfCode.Tests
         public void Part1RealPuzzle()
         {
             var result = Day7.SolvePart1(GetPuzzleInput());
-            Assert.Equal("", result);
+            Assert.Equal("aapssr", result);
         }
 
         [Fact]
         public void Part2RealPuzzle()
         {
             var result = Day7.SolvePart2(GetPuzzleInput());
-            Assert.Equal(-1, result);
+            Assert.Equal(1458, result);
         }
 
         [Fact]
