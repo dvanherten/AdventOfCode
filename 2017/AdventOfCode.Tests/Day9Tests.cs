@@ -19,7 +19,7 @@ namespace AdventOfCode.Tests
         public void Part2RealPuzzle()
         {
             var result = Day9.SolvePart2(GetPuzzleInput());
-            Assert.Equal(-1, result);
+            Assert.Equal(4322, result);
         }
 
         private string GetPuzzleInput()
