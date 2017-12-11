@@ -40,20 +40,6 @@ namespace AdventOfCode.Tests
             Assert.Equal("7f94112db4e32e19cf6502073c66f9bb", result);
         }
 
-        [Fact]
-        public void Test()
-        {
-            byte index = 255;
-            unchecked
-            {
-                index += 10;
-            };
-            Assert.Equal(9, index);
-
-            int index2 = (255 + 10) % 256;
-            Assert.Equal(9, index2);
-        }
-
         private string GetPuzzleInput()
         {
             return "46,41,212,83,1,255,157,65,139,52,39,254,2,86,0,204";
