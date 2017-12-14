@@ -24,10 +24,18 @@ namespace AdventOfCode.Tests
         }
 
         [Fact]
+        public void Part2Sample()
+        {
+            var puzzleInput = new[] { "0: 3", "1: 2", "4: 4", "6: 4" };
+            var result = Day13.SolvePart2(puzzleInput);
+            Assert.Equal(10, result);
+        }
+
+        [Fact]
         public void Part2RealPuzzle()
         {
             var result = Day13.SolvePart2(GetPuzzleInput());
-            Assert.Equal(-1, result);
+            Assert.Equal(3907470, result);
         }
 
         private string[] GetPuzzleInput()
