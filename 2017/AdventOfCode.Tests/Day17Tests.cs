@@ -28,7 +28,7 @@ namespace AdventOfCode.Tests
         {
             var input = GetPuzzleInput();
             var result = Day17.SolvePart2(input);
-            Assert.Equal(-1, result);
+            Assert.Equal(25674054, result);
         }
 
         private int GetPuzzleInput()

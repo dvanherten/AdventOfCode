@@ -12,19 +12,17 @@ namespace AdventOfCode
 
         public static int SolvePart1(int input)
         {
-            var list = BuildList(input, 2017);
-            var index = list.IndexOf(2017);
-            return list[index + 1];
+            var value = HandleSpinLock(input, 2017);
+            return value;
         }
 
         public static int SolvePart2(int input)
         {
-            var list = BuildList(input, 50000000);
-            var index = list.IndexOf(0);
-            return list[index + 1];
+            var value = HandleSpinLockPart2(input, 50000000);
+            return value;
         }
 
-        public static List<int> BuildList(int input, int loops)
+        public static int HandleSpinLock(int input, int loops)
         {
             var list = new List<int> {0};
             var currentIndex = 0;
@@ -43,7 +41,34 @@ namespace AdventOfCode
                 list.Insert(currentIndex, i);
             }
 
-            return list;
+            var index = list.IndexOf(2017);
+            return list[index + 1];
+        }
+
+        public static int HandleSpinLockPart2(int input, int loops)
+        {
+            var currentIndex = 0;
+            var indexOfValue = 0;
+            var valueWeCareAbout = 0;
+
+            for (var i = 1; i <= loops; i++)
+            {
+                // Move
+                var spacesToMove = input % i;
+                var newIndex = currentIndex + spacesToMove;
+                currentIndex = newIndex >= i
+                    ? newIndex - i
+                    : newIndex;
+
+                // Insert
+                currentIndex++;
+                if (currentIndex <= indexOfValue)
+                    indexOfValue++;
+                if (currentIndex == indexOfValue + 1)
+                    valueWeCareAbout = i;
+            }
+
+            return valueWeCareAbout;
         }
     }
 }
