@@ -33,5 +33,24 @@ namespace AdventOfCode.Supporting
                 return (X * 397) ^ Y;
             }
         }
+
+        /// <summary>
+        /// Assumes 0,0 is top left corner.
+        /// </summary>
+        public Point GetNextPoint(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    return new Point(X + 1, Y);
+                case Direction.Up:
+                    return new Point(X, Y - 1);
+                case Direction.Left:
+                    return new Point(X - 1, Y);
+                case Direction.Down:
+                    return new Point(X, Y + 1);
+            }
+            throw new Exception("Shouldn't happen");
+        }
     }
 }
