@@ -93,7 +93,8 @@ namespace AdventOfCode
                         program0Running = true;
                 }
 
-                if (!instruction0.KeepGoing() && !instruction1.KeepGoing())
+                if (!instruction0.KeepGoing() && program0Queue.Count == 0 && 
+                    !instruction1.KeepGoing() && program1Queue.Count == 0)
                     break;
 
             }
@@ -339,6 +340,7 @@ namespace AdventOfCode
                 var queueValue = Queue.Dequeue();
                 registers[Register] = queueValue;
                 Debug.WriteLine($"[{ProgramId}] Receiving {queueValue} into {Register}");
+                _keepGoing = true;
             }
 
             public override bool KeepGoing()
