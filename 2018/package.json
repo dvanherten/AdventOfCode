@@ -1,0 +1,21 @@
+{
+  "name": "advent-of-code-2018",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "adventConfig": {
+    "year": "2017",
+    "nameTemplate": "days/day{{num}}.js",
+    "templateFile": "node_modules/advent-of-code/src/templates/day.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ]
+  },
+  "devDependencies": {
+    "advent-of-code": "^3.1.2",
+    "standard": "^12.0.1"
+  }
+}
