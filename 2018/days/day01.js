@@ -15,27 +15,15 @@ const part1 = input => {
 
 const part2 = input => {
   const frequencyChanges = input.split("\n").map(x => +x);
-  const frequenciesSeen = [];
-
-  let valuesFoundTwice = null;
-  const trackFrequency = (accumulator, currentValue) => {
-    const value = accumulator + currentValue;
-    if (frequenciesSeen.includes(value) && valuesFoundTwice == null)
-      valuesFoundTwice = value;
-    else frequenciesSeen.push(value);
-    return value;
-  };
-
-  let currentFrequency = 0;
-  let endlessPrevention = 0;
-  while (valuesFoundTwice == null || endlessPrevention === 100) {
-    currentFrequency = frequencyChanges.reduce(
-      trackFrequency,
-      currentFrequency
-    );
-    endlessPrevention++;
+  const frequenciesSeen = new Set();
+  let frequency = 0;
+  while (true) {
+    for (let i = 0; i < frequencyChanges.length; i++) {
+      frequency += frequencyChanges[i];
+      if (frequenciesSeen.has(frequency)) return frequency;
+      frequenciesSeen.add(frequency);
+    }
   }
-  return valuesFoundTwice;
 };
 
 module.exports = { part1, part2 };
