@@ -10,7 +10,7 @@ const part1 = input => {
   return result.totalMetadata;
 };
 
-const parseData = (treeInfo, data, index) => {
+const parseData = (treeInfo, data) => {
   return dataReducer(treeInfo, {
     action: treeInfo.nextAction,
     data: +data
@@ -21,8 +21,8 @@ const parseData = (treeInfo, data, index) => {
 // ======
 
 const part2 = input => {
-  const result = testInput.split(" ").reduce(parseData, INITIAL_STATE);
-  return result.totalMetadata;
+  const result = input.split(" ").reduce(parseData, INITIAL_STATE);
+  return result.nodes.calcValue();
 };
 
 module.exports = { part1, part2 };
@@ -34,7 +34,8 @@ const PROCESS_METADATA = "PROCESS_METADATA";
 const INITIAL_STATE = {
   nextAction: IDENTIFY_CHILD_NODES,
   totalMetadata: 0,
-  nodeStack: []
+  workingStack: [],
+  nodes: null
 };
 
 const dataReducer = (state, { action, data }) => {
@@ -43,39 +44,53 @@ const dataReducer = (state, { action, data }) => {
   // console.log(data);
   switch (action) {
     case IDENTIFY_CHILD_NODES: {
-      // if we are working on a new child node, decrement the previous one.
-      const lastNode = state.nodeStack.slice(-1).pop();
-      if (lastNode != undefined)
-        lastNode.childrenCount = lastNode.childrenCount - 1;
       // Add a new node with the child data.
-      const nodeStack = [
-        ...state.nodeStack,
-        {
-          childrenCount: data,
-          metadataCount: null
+      const newNode = {
+        children: [],
+        metadata: [],
+        childrenCount: data,
+        metadataCount: null,
+        calcValue: function() {
+          return this.children.length === 0
+            ? this.metadata.reduce((a, b) => a + b, 0)
+            : this.metadata.reduce((total, m) => {
+                if (m != 0 && m <= this.children.length)
+                  return total + this.children[m - 1].calcValue();
+                return total;
+              }, 0);
         }
-      ];
+      };
+
+      // if we are working on a new child node, decrement the previous one.
+      const lastNode = state.workingStack.slice(-1).pop();
+      if (lastNode != undefined) {
+        lastNode.childrenCount = lastNode.childrenCount - 1;
+        lastNode.children.push(newNode);
+      }
+      const nodes = state.nodes == null ? newNode : state.nodes;
+      const workingStack = [...state.workingStack, newNode];
 
       // Setup for the metadata step next.
       return {
         ...state,
-        nodeStack: nodeStack,
+        nodes: nodes,
+        workingStack: workingStack,
         nextAction: IDENTIFY_METADATA_AMOUNT
       };
     }
 
     case IDENTIFY_METADATA_AMOUNT: {
       // apply metadata to current node.
-      const lastNode = state.nodeStack.slice(-1).pop();
+      const lastNode = state.workingStack.slice(-1).pop();
       lastNode.metadataCount = data;
 
-      // if node has no more child nodeStack, start processing metadata.
+      // if node has no more child nodes, start processing metadata.
       const nextAction =
         lastNode.childrenCount > 0 ? IDENTIFY_CHILD_NODES : PROCESS_METADATA;
 
       return {
         ...state,
-        nodeStack: [...state.nodeStack.slice(0, -1), lastNode],
+        workingStack: [...state.workingStack.slice(0, -1), lastNode],
         nextAction: nextAction
       };
     }
@@ -83,14 +98,16 @@ const dataReducer = (state, { action, data }) => {
     case PROCESS_METADATA: {
       const newTotal = state.totalMetadata + data;
 
-      const lastNode = state.nodeStack.slice(-1).pop();
+      const lastNode = state.workingStack.slice(-1).pop();
       lastNode.metadataCount--;
+      lastNode.metadata.push(data);
 
       // when done processing metadata, determine whether we need
       // to process another child or continue metadata on the parent node.
       if (lastNode.metadataCount === 0) {
-        const nodeStack = [...state.nodeStack.slice(0, -1)];
-        const newLastNode = nodeStack.slice(-1).pop();
+        const workingStack = [...state.workingStack.slice(0, -1)];
+        const newLastNode = workingStack.slice(-1).pop();
+
         if (newLastNode) {
           const nextAction =
             newLastNode.childrenCount > 0
@@ -100,7 +117,7 @@ const dataReducer = (state, { action, data }) => {
           return {
             ...state,
             nodeCount: state.nodeCount - 1,
-            nodeStack: nodeStack,
+            workingStack: workingStack,
             nextAction: nextAction,
             totalMetadata: newTotal
           };
@@ -114,7 +131,7 @@ const dataReducer = (state, { action, data }) => {
 
       return {
         ...state,
-        nodeStack: [...state.nodeStack.slice(0, -1), lastNode],
+        workingStack: [...state.workingStack.slice(0, -1), lastNode],
         nextAction: PROCESS_METADATA,
         totalMetadata: newTotal
       };
